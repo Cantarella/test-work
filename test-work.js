@@ -10,57 +10,58 @@
 /**
  * Класс для работы с API
  *
- * @author		User Name
- * @version		v.1.0 (dd/mm/yyyy)
+ * @author		Zdanevich Ekaterina
+ * @version		v.1.0 (06.02.2024)
  */
 class Api
 {
-	constructor()
-	{
+  constructor()
+  {
 
-	}
+  }
 
 
-	/**
-	 * Заполняет строковый шаблон template данными из объекта object
-	 *
-	 * @author		User Name
-	 * @version		v.1.0 (dd/mm/yyyy)
-	 * @param		{object} object
-	 * @param		{string} template
-	 * @return		{string}
-	 */
-	get_api_path(object, template)
-	{
-		let result = '';
+  /**
+   * Заполняет строковый шаблон template данными из объекта object
+   *
+   * @author		User Name
+   * @version		v.1.0 (dd/mm/yyyy)
+   * @param		{object} object
+   * @param		{string} template
+   * @return		{string}
+   */
+  get_api_path(object, template)
+  {
+    let result = template;
+    for (const [key, value] of Object.entries(object)) {
+      result = result.replace(new RegExp(`(%${key}%)+`), value).replace(' ', '%20');
+    }
 
-		/* Здесь ваш код */
-
-		return result;
-	}
+    return result;
+  }
 }
 
 
 let user =
-	{
-		id		: 20,
-		name	: 'John Dow',
-		role	: 'QA',
-		salary	: 100
-	};
+  {
+    id		: 20,
+    name	: 'John Dow',
+    role	: 'QA',
+    salary	: 100
+  };
 
 let api_path_templates =
-	[
-		"/api/items/%id%/%name%",
-		"/api/items/%id%/%role%",
-		"/api/items/%id%/%salary%"
-	];
+  [
+    "/api/items/%id%/%name%",
+    "/api/items/%id%/%role%",
+    "/api/items/%id%/%salary%"
+  ];
 
 let api = new Api();
 
 let api_paths = api_path_templates.map((api_path_template) =>
 {
-	return api.get_api_path(user, api_path_template);
+  return api.get_api_path(user, api_path_template);
 });
 
 console.log(JSON.stringify(api_paths));
